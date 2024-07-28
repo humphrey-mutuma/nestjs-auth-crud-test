@@ -1,0 +1,5 @@
+model Tag {
+  id Int @default(autoincrement()) @id
+  content String
+  products Product[]
+}
