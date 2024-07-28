@@ -4,14 +4,14 @@ import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class ProductsService {
-  constructor(private readonly prismaService: DatabaseService) {}
+  constructor(private readonly databaseService: DatabaseService) {}
 
   async create(createProductDto: Prisma.ProductCreateInput) {
-    return this.prismaService.product.create({ data: createProductDto });
+    return this.databaseService.product.create({ data: createProductDto });
   }
 
   async findAll() {
-    return await this.prismaService.product.findMany({
+    return await this.databaseService.product.findMany({
       include: {
         tags: true,
         reviews: true,
@@ -26,7 +26,7 @@ export class ProductsService {
   }
 
   async findOne(id: number) {
-    return this.prismaService.product.findUnique({
+    return this.databaseService.product.findUnique({
       where: { id },
       include: {
         tags: true,
@@ -42,13 +42,13 @@ export class ProductsService {
   }
 
   async update(id: number, updateProductDto: Prisma.ProductUpdateInput) {
-    return this.prismaService.product.update({
+    return this.databaseService.product.update({
       where: { id: id },
       data: updateProductDto,
     });
   }
 
   async remove(id: number) {
-    return this.prismaService.product.delete({ where: { id } });
+    return this.databaseService.product.delete({ where: { id } });
   }
 }
