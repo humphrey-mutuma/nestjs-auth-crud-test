@@ -10,7 +10,13 @@ export class ReviewsService {
   async create(createReviewDto: CreateReviewDto): Promise<{ id: number }> {
     const { content, productId, rating, title, authorId } = createReviewDto;
     return this.prismaService.review.create({
-      data: { content, productId, rating, title, authorId },
+      data: {
+        title: title,
+        content: content,
+        rating: rating,
+        product: { connect: { id: productId } },
+        author: { connect: { id: authorId } },
+      },
       select: {
         id: true,
       },
@@ -24,6 +30,7 @@ export class ReviewsService {
   async findOne(id: number) {
     return this.prismaService.review.findUnique({
       where: { id },
+      include: { author: true, product: true },
     });
   }
 
@@ -31,9 +38,17 @@ export class ReviewsService {
     id: number,
     updateReviewDto: UpdateReviewDto,
   ): Promise<{ id: number }> {
+    const { content, productId, rating, title, authorId } = updateReviewDto;
+
     return this.prismaService.review.update({
       where: { id: id },
-      data: updateReviewDto,
+      data: {
+        title: title,
+        content: content,
+        rating: rating,
+        product: { connect: { id: productId } },
+        author: { connect: { id: authorId } },
+      },
       select: {
         id: true,
       },

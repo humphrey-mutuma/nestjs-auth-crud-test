@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Prisma } from '@prisma/client';
 import {
   IsString,
   IsNotEmpty,
@@ -13,7 +14,7 @@ enum Availibility {
   ONLINE = 'ONLINE',
 }
 
-export class CreateProductDto {
+export class CreateProductDto implements Prisma.ProductCreateInput {
   @ApiProperty({ example: 'Product A', description: 'The name of the product' })
   @IsString()
   @IsNotEmpty()

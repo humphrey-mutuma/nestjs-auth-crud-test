@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Prisma } from '@prisma/client';
 import {
   IsString,
   IsInt,
@@ -8,7 +9,7 @@ import {
   Length,
 } from 'class-validator';
 
-export class CreateAuthDto {
+export class CreateAuthDto implements Prisma.UserCreateInput {
   @ApiProperty({ example: 'john doe' })
   @IsNotEmpty()
   @IsString()

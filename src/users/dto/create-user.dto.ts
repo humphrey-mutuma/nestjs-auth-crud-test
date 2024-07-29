@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Prisma } from '@prisma/client';
 import {
   IsString,
   IsNotEmpty,
@@ -8,7 +9,7 @@ import {
   Min,
 } from 'class-validator';
 
-export class CreateUserDto {
+export class CreateUserDto implements Prisma.UserCreateInput {
   @ApiProperty({ example: 'john_doe', description: 'The username of the user' })
   @IsString()
   @IsNotEmpty()
@@ -16,7 +17,6 @@ export class CreateUserDto {
 
   @ApiProperty({
     example: '#Pas@123.wod',
-    description: 'The password of the user',
   })
   @IsString()
   @IsNotEmpty()
