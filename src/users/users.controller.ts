@@ -1,4 +1,12 @@
-import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { findAllUsersReturn, UsersService } from './users.service';
 // import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -15,7 +23,7 @@ export class UsersController {
   //   return this.usersService.create(createUserDto);
   // }
 
-  @Get('/getAllUsers/')
+  @Get('/getAllUsers')
   findAllUsers(): Promise<findAllUsersReturn[]> {
     return this.usersService.findAllUsers();
   }
@@ -26,17 +34,22 @@ export class UsersController {
   }
 
   @Get('/getUser/:id')
-  findOneUser(@Param('id') id: string): Promise<findAllUsersReturn> {
+  findOneUser(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<findAllUsersReturn> {
     return this.usersService.findOneUser(+id);
   }
 
   @Patch('/updateUser/:id')
-  updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  updateUser(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     return this.usersService.updateUser(+id, updateUserDto);
   }
 
   @Delete('/deleteUser/:id')
-  removeUser(@Param('id') id: string): Promise<{ id: number }> {
+  removeUser(@Param('id', ParseIntPipe) id: number): Promise<{ id: number }> {
     return this.usersService.removeUser(+id);
   }
 }

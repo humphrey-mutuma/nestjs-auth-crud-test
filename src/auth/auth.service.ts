@@ -13,6 +13,7 @@ export class AuthService {
   // create new account
   async createAccount(createAuthDto: CreateAuthDto): Promise<{ id: number }> {
     const { age, password, username } = createAuthDto;
+
     return this.databaseService.user.create({
       data: { age, password, username },
       select: {

@@ -2,46 +2,45 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsString,
   IsInt,
-  IsOptional,
-  MinLength,
+  // IsOptional,
   IsNotEmpty,
   IsBoolean,
+  Length,
 } from 'class-validator';
 
 export class CreateAuthDto {
-  @ApiProperty({ example: 'john_doe', description: 'The username of the user' })
-  @IsString()
+  @ApiProperty({ example: 'john doe' })
   @IsNotEmpty()
+  @IsString()
   username: string;
 
   @ApiProperty({
     example: 'password123',
-    description: 'The password of the user',
     minLength: 6,
   })
   @IsString()
   @IsNotEmpty()
-  @MinLength(6)
+  @Length(6, 20)
   password: string;
 
-  @ApiProperty({ example: 25, description: 'The age of the user' })
-  @IsInt()
-  @IsNotEmpty()
+  @ApiProperty({ example: 25 })
+  @IsInt({ message: 'Age must be a number' })
+  @IsNotEmpty({ message: 'age is required' })
   age: number;
 
-  @ApiProperty({
-    example: 'optional-access-token',
-    description: 'The access token of the user',
-    required: false,
-  })
-  @IsString()
-  @IsOptional()
-  accessToken?: string;
+  // @ApiProperty({
+  //   example: 'optional-access-token',
+  //   description: 'The access token of the user',
+  //   required: false,
+  // })
+  // @IsString()
+  // @IsOptional()
+  // accessToken?: string;
 }
+
 export class UpdateValidationStatusDto {
   @ApiProperty({
     example: true,
-    description: 'The validation status of the user',
   })
   @IsBoolean()
   @IsNotEmpty()
@@ -49,7 +48,7 @@ export class UpdateValidationStatusDto {
 }
 
 export class LoginAuthDto {
-  @ApiProperty({ example: 'john_doe', description: 'The username of the user' })
+  @ApiProperty({ example: 'john doe' })
   @IsString()
   @IsNotEmpty()
   username: string;

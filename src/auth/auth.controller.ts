@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {
   CreateAuthDto,
@@ -25,7 +33,7 @@ export class AuthController {
 
   @Patch('/validateAccount/:id')
   validateAccount(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: string,
     @Body() UpdateValidationStatusDto: UpdateValidationStatusDto,
   ) {
     return this.authService.validateAccount(+id, UpdateValidationStatusDto);

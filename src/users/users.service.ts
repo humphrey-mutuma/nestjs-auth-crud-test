@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 // import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { DatabaseService } from 'src/database/database.service';
@@ -32,10 +36,25 @@ export class UsersService {
   }
 
   async findOneUser(id: number): Promise<findAllUsersReturn> {
-    return this.databaseService.user.findUnique({
-      where: { id },
-      select: { id: true, username: true, age: true },
-    });
+    try {
+      const user = await this.databaseService.user.findUnique({
+        where: { id },
+        select: { id: true, username: true, age: true },
+      });
+
+      if (!user) {
+        throw new NotFoundException(`User with ID ${id} not found`);
+      }
+
+      return user;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(
+        'An error occurred while fetching the user',
+      );
+    }
   }
 
   async updateUser(id: number, updateUserDto: UpdateUserDto) {

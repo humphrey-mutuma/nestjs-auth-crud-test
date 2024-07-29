@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ReviewsService } from './reviews.service';
 import {
@@ -56,14 +57,14 @@ export class ReviewsController {
     type: UpdateReviewDto,
   })
   update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateReviewDto: UpdateReviewDto,
   ): Promise<{ id: number }> {
     return this.reviewsService.update(+id, updateReviewDto);
   }
 
   @Delete('/deleteReview/:id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.reviewsService.remove(+id);
   }
 }
