@@ -8,8 +8,9 @@ export class ReviewsService {
   constructor(private readonly prismaService: DatabaseService) {}
 
   async create(createReviewDto: CreateReviewDto): Promise<{ id: number }> {
+    const { content, productId, rating, title, authorId } = createReviewDto;
     return this.prismaService.review.create({
-      data: createReviewDto,
+      data: { content, productId, rating, title, authorId },
       select: {
         id: true,
       },

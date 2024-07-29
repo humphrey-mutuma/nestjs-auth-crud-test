@@ -5,16 +5,19 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Set global prefix
+  app.setGlobalPrefix('api');
+
   const config = new DocumentBuilder()
     .setTitle('Products example')
     .setDescription('The products API description')
     .setVersion('1.0')
-    .addTag('products')
+    .addTag('api')
     .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('apis', app, document);
 
   await app.listen(3000);
   console.log(`Application is running on: ${await app.getUrl()}`);

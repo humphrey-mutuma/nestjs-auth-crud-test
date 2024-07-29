@@ -23,7 +23,7 @@ import { UpdateReviewDto } from './dto/update-review.dto';
 export class ReviewsController {
   constructor(private readonly reviewsService: ReviewsService) {}
 
-  @Post()
+  @Post('/createReview')
   @ApiResponse({
     status: 201,
     description: 'The record has been successfully created.',
@@ -35,12 +35,12 @@ export class ReviewsController {
     return this.reviewsService.create(createReviewDto);
   }
   // ...
-  @Get()
+  @Get('/getAllReviews')
   findAll() {
     return this.reviewsService.findAll();
   }
 
-  @Get(':id')
+  @Get('/getReview/:id')
   @ApiResponse({
     status: 200,
     description: 'The found record',
@@ -49,7 +49,7 @@ export class ReviewsController {
     return this.reviewsService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch('/updateReview/:id')
   @ApiResponse({
     status: 200,
     description: 'The record has been successfully updated.',
@@ -62,7 +62,7 @@ export class ReviewsController {
     return this.reviewsService.update(+id, updateReviewDto);
   }
 
-  @Delete(':id')
+  @Delete('/deleteReview/:id')
   remove(@Param('id') id: string) {
     return this.reviewsService.remove(+id);
   }

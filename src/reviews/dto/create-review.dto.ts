@@ -26,4 +26,10 @@ export class CreateReviewDto {
     description: 'The product associated with the review',
   })
   productId: number;
+
+  @ApiProperty({
+    example: 0,
+    description: 'Review Writer',
+  })
+  authorId: number;
 }
